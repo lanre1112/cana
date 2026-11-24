@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Alder Demilade Elizabeth!</title>
+  <style>
+    :root {
+      --bg: #fff9fb;
+      --surface: #ffffff;
+      --ink: #23192d;
+      --muted: #6b5b7b;
+      --accent: #ff4d8d;
+      --accent-dark: #d92b6b;
+      --accent-soft: #ffe3ee;
+      --gold: #ffb703;
+      --radius: 20px;
+      --shadow: 0 12px 30px rgba(35, 25, 45, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at top right, #ffe8f1 0%, var(--bg) 45%, #fff5e4 100%);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1.5rem;
+      background: var(--surface);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 77, 141, 0.14);
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-avatar {
+      width: 124px;
+      height: 124px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--accent-soft);
+      box-shadow: 0 10px 24px rgba(255, 77, 141, 0.22);
+      margin: 0 auto 1.1rem;
+      display: block;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      margin-bottom: 0.9rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5.5vw, 3.5rem);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin: 0 auto 1.75rem;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 999px;
+      padding: 0.8rem 1.4rem;
+      font-weight: 600;
+      transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(255, 77, 141, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .btn-secondary:hover {
+      background: #ffd1e3;
+      transform: translateY(-2px);
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+      letter-spacing: -0.015em;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Photo Gallery */
+    .gallery-section {
+      margin-bottom: 4rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.35rem;
+    }
+
+    .photo-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-caption {
+      padding: 1rem 1.15rem;
+    }
+
+    .photo-caption strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .photo-caption span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 12, 28, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 100;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-content {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 680px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .lightbox-content img {
+      width: 100%;
+      max-height: 440px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lightbox-footer {
+      padding: 1.1rem 1.35rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Interactive Birthday Cards */
+    .cards-section {
+      margin-bottom: 2rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.35rem;
+      margin-bottom: 2rem;
+    }
+
+    .flip-card {
+      perspective: 1000px;
+      height: 250px;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 77, 141, 0.14);
+    }
+
+    .flip-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(160deg, #fff5f9 0%, #ffffff 100%);
+    }
+
+    .card-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    .card-front-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .card-hint {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .card-message {
+      font-size: 0.98rem;
+      color: var(--ink);
+      overflow-y: auto;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .btn-mini {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.82rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .btn-mini:hover {
+      background: #ffd1e3;
+    }
+
+    /* Add Card Form */
+    .composer {
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.9rem;
+      align-items: end;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field textarea {
+      font: inherit;
+      padding: 0.7rem 0.85rem;
+      border: 1px solid #e4d8ee;
+      border-radius: 12px;
+      background: #fdfaff;
+      color: var(--ink);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 44px;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: 2px solid var(--accent);
+      border-color: transparent;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 2.4rem 1.15rem;
+      }
+
+      .flip-card {
+        height: 270px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="confetti-canvas"></canvas>
+
+  <main class="container">
+    <!-- CUSTOMIZE: Update her message or greeting anytime -->
+    <section class="hero">
+      <img class="hero-avatar" src="./Lade.jpeg" alt="Alder Demilade Elizabeth" />
+      <div class="badge">Celebrating Alder</div>
+      <h1>Happy Birthday, <span>Alder Demilade Elizabeth</span>!</h1>
+      <p>
+        Here’s to another year of loud laughs, spontaneous plans, great food,
+        and having each other’s backs through everything. Wishing you your happiest,
+        boldest chapter yet, Lade!
+      </p>
+      <div class="btn-row">
+        <button class="btn-primary" id="burst-btn">Throw More Confetti</button>
+        <a href="#cards" class="btn-secondary"
+          style="text-decoration:none; padding:0.8rem 1.4rem; border-radius:999px; font-weight:600;">
+          Open Birthday Cards
+        </a>
+      </div>
+    </section>
+
+    <!-- PHOTO GALLERY -->
+    <section class="gallery-section" id="gallery">
+      <div class="section-header">
+        <div>
+          <h2>Alder’s Favorite Memories</h2>
+          <p class="section-sub">Click any photo to view it larger. Add more photos of Alder in the script below.</p>
+        </div>
+      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+
+    <!-- INTERACTIVE BIRTHDAY CARDS -->
+    <section class="cards-section" id="cards">
+      <div class="section-header">
+        <div>
+          <h2>Interactive Birthday Cards for Demilade</h2>
+          <p class="section-sub">Click a card to flip it, edit any note, or add a new card below. Changes save in your
+            browser.</p>
+        </div>
+        <button class="btn-secondary" id="reset-cards-btn">Reset Default Cards</button>
+      </div>
+
+      <div class="cards-grid" id="cards-grid"></div>
+
+      <form class="composer" id="add-card-form">
+        <div class="field">
+          <label for="card-from">From / Card Title</label>
+          <input type="text" id="card-from" placeholder="e.g., To Elizabeth" required />
+        </div>
+        <div class="field" style="grid-column: span 2;">
+          <label for="card-msg">Birthday Note</label>
+          <textarea id="card-msg" rows="1" placeholder="Write a birthday message for Alder..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Add Card</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- LIGHTBOX FOR PHOTOS -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="" />
+      <div class="lightbox-footer">
+        <div>
+          <strong id="lightbox-title"></strong>
+          <p id="lightbox-caption" style="color: var(--muted); font-size: 0.9rem;"></p>
+        </div>
+        <button class="btn-secondary" id="close-lightbox">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CUSTOMIZE: PHOTO GALLERY DATA
+    // Keep `Lade.jpeg` in the same folder as index.html, and add more items below.
+    // =========================================================================
+    const photos = [
+      {
+        src: "./Lade.jpeg",
+        title: "MY PRINCESS 😘❤️",
+        caption: "Effortless main-character energy for Alder Demilade Elizabeth."
+      },
+      {
+        src: "c:\Users\pc\Downloads\mp4 99.mp4",
+        title: "Main Character Season",
+        caption: "Happy Birthday My love"
+      },
+      {
+        src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=900&q=80",
+        title: "More Cake, Less Stress",
+        caption: "Wishing you all the joy, peace, and blessings this year, Demilade."
+      }
+    ];
+
+    // =========================================================================
+    // CUSTOMIZE: DEFAULT INTERACTIVE BIRTHDAY CARDS
+    // =========================================================================
+    const STORAGE_KEY = "alder_demilade_elizabeth_birthday_cards_v2";
+    const defaultCards = [
+      {
+        id: crypto.randomUUID(),
+        from: "Day-One Promise",
+        message: "Happy birthday, Alder! No matter how busy life gets or where we end up, you always have someone cheering loudest for you."
+      },
+      {
+        id: crypto.randomUUID(),
+        from: "Birthday Coupon for Demilade",
+        message: "Redeemable for one iced drink/coffee, zero judgment about your outfit choices, and an emergency pep talk anytime."
+      },
+      {
+        id: crypto.randomUUID(),
+        from: "To Elizabeth",
+        message: "Watching you grow, shine, and chase what you want is one of my favorite things. Here’s to your best year yet!"
+      }
+    ];
+
+    // Render Photo Gallery
+    const galleryGrid = document.getElementById("gallery-grid");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxTitle = document.getElementById("lightbox-title");
+    const lightboxCaption = document.getElementById("lightbox-caption");
+
+    photos.forEach((photo) => {
+      const card = document.createElement("article");
+      card.className = "photo-card";
+      card.innerHTML = `
+        <img src="${photo.src}" alt="${escapeHtml(photo.title)}" loading="lazy" />
+        <div class="photo-caption">
+          <strong>${escapeHtml(photo.title)}</strong>
+          <span>${escapeHtml(photo.caption)}</span>
+        </div>
+      `;
+      card.addEventListener("click", () => {
+        lightboxImg.src = photo.src;
+        lightboxImg.alt = photo.title;
+        lightboxTitle.textContent = photo.title;
+        lightboxCaption.textContent = photo.caption;
+        lightbox.classList.add("open");
+      });
+      galleryGrid.appendChild(card);
+    });
+
+    document.getElementById("close-lightbox").addEventListener("click", () => {
+      lightbox.classList.remove("open");
+    });
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) lightbox.classList.remove("open");
+    });
+
+    // Interactive Cards State & Rendering
+    const cardsGrid = document.getElementById("cards-grid");
+
+    function loadCards() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return Array.isArray(saved) && saved.length ? saved : structuredClone(defaultCards);
+      } catch {
+        return structuredClone(defaultCards);
+      }
+    }
+
+    let cards = loadCards();
+
+    function saveCards() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
+    }
+
+    function renderCards() {
+      cardsGrid.innerHTML = "";
+      cards.forEach((item) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "flip-card";
+
+        wrapper.innerHTML = `
+          <div class="flip-inner">
+            <div class="flip-face">
+              <span class="card-tag">Tap to open</span>
+              <div class="card-front-title">${escapeHtml(item.from)}</div>
+              <span class="card-hint">Click card to read message</span>
+            </div>
+            <div class="flip-face flip-back">
+              <p class="card-message">${escapeHtml(item.message)}</p>
+              <div class="card-actions">
+                <button type="button" class="btn-mini edit-btn">Edit</button>
+                <button type="button" class="btn-mini delete-btn">Delete</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const inner = wrapper.querySelector(".flip-inner");
+        inner.addEventListener("click", (e) => {
+          if (e.target.closest("button")) return;
+          wrapper.classList.toggle("flipped");
+        });
+
+        wrapper.querySelector(".edit-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
+          const nextTitle = prompt("Edit card title/from:", item.from);
+          if (nextTitle === null) return;
+          const nextMsg = prompt("Edit birthday message:", item.message);
+          if (nextMsg === null) return;
+          item.from = nextTitle.trim() || item.from;
+          item.message = nextMsg.trim() || item.message;
+          saveCards();
+          renderCards();
+        });
+
+        wrapper.querySelector(".delete-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
+          cards = cards.filter((c) => c.id !== item.id);
+          saveCards();
+          renderCards();
+        });
+
+        cardsGrid.appendChild(wrapper);
+      });
+    }
+
+    document.getElementById("add-card-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fromInput = document.getElementById("card-from");
+      const msgInput = document.getElementById("card-msg");
+      cards.push({
+        id: crypto.randomUUID(),
+        from: fromInput.value.trim(),
+        message: msgInput.value.trim()
+      });
+      saveCards();
+      renderCards();
+      fromInput.value = "";
+      msgInput.value = "";
+      spawnConfetti(60);
+    });
+
+    document.getElementById("reset-cards-btn").addEventListener("click", () => {
+      cards = structuredClone(defaultCards);
+      saveCards();
+      renderCards();
+    });
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    renderCards();
+
+    // =========================================================================
+    // CONFETTI CANVAS ANIMATION
+    // =========================================================================
+    const canvas = document.getElementById("confetti-canvas");
+    const ctx = canvas.getContext("2d");
+    let confettiPieces = [];
+    const colors = ["#ff4d8d", "#ffb703", "#8ecae6", "#b5179e", "#ff9ebb", "#4cc9f0"];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function spawnConfetti(count = 110) {
+      for (let i = 0; i < count; i++) {
+        confettiPieces.push({
+          x: Math.random() * canvas.width,
+          y: -20 - Math.random() * canvas.height * 0.4,
+          w: 7 + Math.random() * 8,
+          h: 5 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 3,
+          vy: 2 + Math.random() * 4.5,
+          angle: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 0.18,
+          opacity: 1
+        });
+      }
+    }
+
+    function updateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      confettiPieces.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.angle += p.spin;
+        if (p.y > canvas.height - 60) {
+          p.opacity -= 0.025;
+        }
+
+        if (p.opacity > 0) {
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.opacity);
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.angle);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        }
+      });
+
+      confettiPieces = confettiPieces.filter((p) => p.y <= canvas.height + 20 && p.opacity > 0);
+      requestAnimationFrame(updateConfetti);
+    }
+
+    document.getElementById("burst-btn").addEventListener("click", () => spawnConfetti(120));
+
+    // Initial confetti burst on load
+    spawnConfetti(110);
+    updateConfetti();
+  </script>
+</body>
+
+</html>
